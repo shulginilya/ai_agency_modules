@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@ai-modules/core": ["../packages/core/src"],
+      "@ai-modules/chat": ["../packages/module-chat/src"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}

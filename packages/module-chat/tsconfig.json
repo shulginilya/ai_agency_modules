@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"],
+    "paths": { "@ai-modules/core": ["../core/src"] }
+  },
+  "include": ["src", "tests", "vite.config.ts"]
+}

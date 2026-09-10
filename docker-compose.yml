@@ -1,0 +1,36 @@
+services:
+  backend:
+    build: ./backend
+    command: uvicorn aim_core.app:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      AIM_DEBUG: "true"
+      AIM_CORS_ORIGINS: '["http://localhost:5173"]'
+      AIM_LLM_PROVIDER: ${AIM_LLM_PROVIDER:-mock}
+      AIM_ANTHROPIC_API_KEY: ${AIM_ANTHROPIC_API_KEY:-}
+    volumes:
+      - ./backend/src:/app/src
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  frontend:
+    image: node:20-alpine
+    working_dir: /workspace
+    command: sh -c "corepack enable && pnpm install --frozen-lockfile=false && pnpm dev --host 0.0.0.0"
+    environment:
+      VITE_API_TARGET: http://backend:8000
+    volumes:
+      - .:/workspace
+      - frontend_modules:/workspace/node_modules
+    ports:
+      - "5173:5173"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  frontend_modules:

@@ -1,0 +1,196 @@
+/* Scoped, token-driven, light + dark. Override the tokens to re-theme. */
+.aim-chat {
+  --aim-chat-bg: #ffffff;
+  --aim-chat-fg: #1a1a19;
+  --aim-chat-muted: #6b6b68;
+  --aim-chat-border: #e4e4e1;
+  --aim-chat-surface: #f6f6f4;
+  --aim-chat-accent: #4a63d6;
+  --aim-chat-accent-fg: #ffffff;
+  --aim-chat-danger: #b4342a;
+  --aim-chat-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--aim-chat-bg);
+  color: var(--aim-chat-fg);
+  border: 1px solid var(--aim-chat-border);
+  border-radius: var(--aim-chat-radius);
+  font:
+    14px/1.55 ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  .aim-chat:not([data-theme='light']) {
+    --aim-chat-bg: #1c1c1b;
+    --aim-chat-fg: #f0efec;
+    --aim-chat-muted: #a3a29d;
+    --aim-chat-border: #35353310;
+    --aim-chat-border: #353533;
+    --aim-chat-surface: #262625;
+    --aim-chat-accent: #8fa2ff;
+    --aim-chat-accent-fg: #14142a;
+    --aim-chat-danger: #f08a80;
+  }
+}
+
+.aim-chat[data-theme='dark'] {
+  --aim-chat-bg: #1c1c1b;
+  --aim-chat-fg: #f0efec;
+  --aim-chat-muted: #a3a29d;
+  --aim-chat-border: #353533;
+  --aim-chat-surface: #262625;
+  --aim-chat-accent: #8fa2ff;
+  --aim-chat-accent-fg: #14142a;
+  --aim-chat-danger: #f08a80;
+}
+
+.aim-chat__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--aim-chat-border);
+}
+
+.aim-chat__title {
+  font-weight: 600;
+}
+.aim-chat__meta {
+  color: var(--aim-chat-muted);
+  font-size: 12px;
+}
+
+.aim-chat__log {
+  flex: 1 1 auto;
+  min-height: 120px;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aim-chat__empty {
+  margin: auto;
+  color: var(--aim-chat-muted);
+  text-align: center;
+  padding: 0 16px;
+}
+
+.aim-chat__bubble {
+  max-width: min(78%, 640px);
+  padding: 8px 12px;
+  border-radius: var(--aim-chat-radius);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.aim-chat__bubble--user {
+  align-self: flex-end;
+  background: var(--aim-chat-accent);
+  color: var(--aim-chat-accent-fg);
+}
+
+.aim-chat__bubble--assistant {
+  align-self: flex-start;
+  background: var(--aim-chat-surface);
+}
+
+.aim-chat__bubble--system {
+  align-self: center;
+  color: var(--aim-chat-muted);
+  font-size: 12px;
+  background: transparent;
+}
+
+.aim-chat__caret {
+  display: inline-block;
+  width: 0.5em;
+  animation: aim-chat-blink 1s steps(2, start) infinite;
+}
+
+@keyframes aim-chat-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aim-chat__caret {
+    animation: none;
+  }
+}
+
+.aim-chat__error {
+  margin: 0 14px 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--aim-chat-danger);
+  color: var(--aim-chat-danger);
+  font-size: 13px;
+}
+
+.aim-chat__composer {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid var(--aim-chat-border);
+  background: var(--aim-chat-bg);
+}
+
+.aim-chat__input {
+  flex: 1 1 auto;
+  resize: none;
+  min-height: 40px;
+  max-height: 160px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--aim-chat-border);
+  background: var(--aim-chat-bg);
+  color: inherit;
+  font: inherit;
+}
+
+.aim-chat__input:focus-visible,
+.aim-chat__button:focus-visible {
+  outline: 2px solid var(--aim-chat-accent);
+  outline-offset: 1px;
+}
+
+.aim-chat__button {
+  flex: 0 0 auto;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: var(--aim-chat-accent);
+  color: var(--aim-chat-accent-fg);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.aim-chat__button--ghost {
+  background: transparent;
+  color: var(--aim-chat-fg);
+  border-color: var(--aim-chat-border);
+}
+
+.aim-chat__button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 420px) {
+  .aim-chat__bubble {
+    max-width: 90%;
+  }
+}
